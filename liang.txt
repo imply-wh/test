@@ -1,1 +1,66 @@
-第二次提交
+Git 使用
+git init    初始化git项目
+git add   添加项目到本地仓库
+git commit -m  “提交备注”     提交add的项目到版本库
+git log    最近提交日志
+git log –pretty=oneline     简化输出日志
+git reset –hard HEAD^    回退一个版本
+git reset –hard HEAD~100    回退100个版本
+git reset –hard 123456    回退指定版本号版本（一般前六位即可）
+git reflog      输出操作记录 可用来查看历史版本号
+git status     输出当前工作区和暂存区和版本库的提交状态
+git diff HEAD – 文件名    查看工作区和版本库中的不同
+git checkout – file    将当前工作区的文件撤销到上一次add或commit的状态
+git reset HEAD file    将暂存区版本退回到工作区，并清空暂存区
+ssh-keygen -t rsa -C “youremail@example.com”  	生成本电脑的公钥和私钥，  .pub结尾为公钥    生成后需要在github账户setting  中设置ssh   自定义titile  并将  .pub中的内容添加到ssh中，使当前使用的电脑可以提交代码到仓库
+
+git remote add origin git@github.com:290352095/ BootStrap3-base.git     连接本地git仓库到github的远程仓库
+git push -u origin master     将当前的master分支提交到远程库  首次推送加-u  提交失败   需先执行git pull origin master --allow-unrelated-histories    （可能由于库里有东西  导致分支不同 无法提交）
+git clone git@github.com:290352095/project.git    从git仓库克隆项目
+
+
+git checkout -b dev      创建并切换到dev分支
+以上命令相当于 git branch dev    git checkout dev   两条命令
+
+git branch 查看当前分支    列出所有分支，带*的为当前分支
+
+git merge –no--ff dev   合并dev分支到当前分支    --no—ff可通过普通模式合并   可以看到曾经做过合并  默认模式看不出来
+git branch -d dev   删除dev分支
+git log –graph –pretty=oneline –abbrev-commit    查看分支合并情况
+
+开发中应以master 为主分支，  dev 为开发分支，主分支合并开发分支的东西    开发分支合并各个开发者的东西
+
+git stash 将当前的工作现场进行存储   以便做其他临时修改后进行恢复
+
+git stash list 查看存储的临时工作区列表
+git stash apply  恢复存储在临时工作区的内容到分支
+git stash drop   删除存储在stash中的东西
+git stash pop  恢复的同时吧stash中的内容删除
+git stash apply stash@{0}     恢复指定的stash
+
+
+开发新功能最好新建一个分支，feature   如果丢弃没有被合并过的分支
+git branch -D feature
+git remote 查看远程库信息
+git remote -v 查看远程库详细信息
+git push origin master   本地的分支合并到远程分支,若失败则需先pull
+git checkout -b branch-name origin/branch-name 在本地创建和远程对应的分支
+git branch –set-upstream branch-name origin/branch-name   建立本地分支和远程分支的关联
+使用git pull 从远程抓取分支时若有冲突，需要先处理冲突
+
+git tag v1.0   为当前分支打标签
+git tag   查看所有标签
+git tag v1.0 123456  为123456对应的commit id打标签
+git show tagname   查看标签的详细信息
+git tag -d v1.0  删除标签
+git push origin v1.0 推送某个标签到远程
+git push origin :refs/tags/<tagname>   删除一个远程标签
+git config –global alias st status    为常用命令设置别名（全局）
+
+搭建git服务
+sudo apt-get install git   安装git
+sudo adduser git    创建一个git 用户
+将所有需要添加用户的公钥添加到authorized_keys   一行一个
+选定一个目录作为git仓库  执行
+sudo git init –bare sample.git
+sudo chown -R git:git sample.git 改变此目录权限
