@@ -64,3 +64,14 @@ sudo adduser git    创建一个git 用户
 选定一个目录作为git仓库  执行
 sudo git init –bare sample.git
 sudo chown -R git:git sample.git 改变此目录权限
+
+报错解决方案
+error: You have not concluded your merge (MERGE_HEAD exists)解决方案
+ 1.保留本地的更改,中止合并->重新合并->重新拉取
+    git merge --abort
+    git reset --merge
+    git pull
+ 2.舍弃本地代码,远端版本覆盖本地版本(慎重)
+    git fetch --all
+    git reset --hard origin/master
+    git fetch
